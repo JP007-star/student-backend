@@ -6,6 +6,7 @@ const path= require('path')
 const cors = require('cors')
 const app=express()
 const env=require('dotenv')
+const routes = require('./routes/student')
 
 
 env.config()
@@ -22,5 +23,9 @@ mongoose.connect(uri, {
 
 
 app.use(cors());
-app.use("/public", express.static(path.join(__dirname, "uploads")));
-// app.use('/api',)
+app.use('/',routes)
+
+app.listen(process.env.PORT,()=>{
+    console.log(`server is running on port ${process.env.PORT}`)
+    
+})

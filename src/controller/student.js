@@ -1,15 +1,17 @@
-const Student = require('../models/Student')
-exports.addStudent = (req, res, next) => {
-    const {id,name, age, fee} = req.body;
+const Student = require("../model/student");
+
+exports.addStudent = async (req, res, next) => {
+    
+    const {name, age, fee} = req.body;
     const student = new Student({
-        id: slugify(name),
         name: name,
         age,
         fee
     });
-    student.save((error, student) => {
-        if (error) { res.status(400).json({ error: error }) }
-
-        if (student) res.status(200).json({ student: student })
+    student.save().then(()=>{
+      res.status(200).json({ student: student })
+    }).catch((err)=>{
+        console.log(err);
+        res.status(400).json({ error: err })
     })
 }
